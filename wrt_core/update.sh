@@ -34,6 +34,7 @@ source "$SCRIPT_DIR/modules/feeds.sh"
 source "$SCRIPT_DIR/modules/packages.sh"
 source "$SCRIPT_DIR/modules/system.sh"
 source "$SCRIPT_DIR/modules/cups.sh"
+source "$SCRIPT_DIR/modules/docker.sh"
 
 
 main() {
@@ -52,7 +53,6 @@ main() {
     change_dnsmasq2full
     fix_mk_def_depends
 
-    # install_libubox_cmake_patch
     update_default_lan_addr
     remove_something_nss_kmod
     update_affinity_script
@@ -93,6 +93,7 @@ main() {
     remove_attendedsysupgrade
     fix_kconfig_recursive_dependency
     install_feeds
+    update_docker_stack
     fix_cups_libcups_avahi_depends
     fix_easytier_lua
     update_adguardhome
@@ -103,10 +104,6 @@ main() {
     fix_quectel_cm
     install_pbr_cmcc
     fix_pbr_ip_forward
-    update_package "runc" "releases" "v1.3.3"
-    # update_package "containerd" "releases" "v1.7.28"
-    # update_package "docker" "tags" "v28.5.2"
-    # update_package "dockerd" "releases" "v28.5.2"
     # apply_hash_fixes
 }
 
