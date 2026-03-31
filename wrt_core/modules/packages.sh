@@ -469,6 +469,10 @@ _sync_luci_lib_docker() {
         
         mv collections/luci-lib-docker ../luci-lib-docker || return
         cd .. || return
+        # 处理 luci-lib-docker 版本号中的 'v' 前缀
+        if [ -f "$BUILD_DIR/feeds/luci/libs/luci-lib-docker/Makefile" ]; then
+            sed -i 's/PKG_VERSION:=v/PKG_VERSION:=/g' "$BUILD_DIR/feeds/luci/libs/luci-lib-docker/Makefile"
+        fi
         \rm -rf luci-lib-docker-tmp
         cd "$BUILD_DIR"
         echo "luci-lib-docker 同步完成"
