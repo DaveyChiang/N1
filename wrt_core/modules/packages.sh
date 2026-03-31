@@ -510,6 +510,11 @@ update_dockerman() {
             docker_stack_sync_dockerman_nftables_compat "$BUILD_DIR" "0" || return 1
         fi
 
+        # 处理 dockerman 版本号中的 'v' 前缀
+        if [ -f "$path/Makefile" ]; then
+            sed -i 's/PKG_VERSION:=v/PKG_VERSION:=/g' "$path/Makefile"
+        fi
+
         echo "dockerman 更新完成"
     fi
 }
