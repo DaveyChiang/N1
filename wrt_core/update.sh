@@ -47,7 +47,6 @@ main() {
     install_small8
     update_homeproxy
     add_nf_deaf
-    update_nikki
     update_tailscale
     fix_default_set
     fix_miniupnpd
