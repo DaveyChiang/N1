@@ -45,6 +45,7 @@ main() {
     remove_unwanted_packages
     remove_tweaked_packages
     update_homeproxy
+    add_nf_deaf
     update_nikki
     update_tailscale
     fix_default_set

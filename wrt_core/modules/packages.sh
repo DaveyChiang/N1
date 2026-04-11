@@ -162,6 +162,20 @@ update_homeproxy() {
     fi
 }
 
+add_nf_deaf() {
+    local nfdeaf_dir="$BUILD_DIR/package/kernel/nf_deaf"
+    local repo_url="https://github.com/kob/nf_deaf-openwrt.git"
+
+    echo "正在添加 nf_deaf..."
+    rm -rf "$nfdeaf_dir" 2>/dev/null
+
+    if ! git clone --depth=1 "$repo_url" "$nfdeaf_dir"; then
+        echo "错误：从 $repo_url 克隆 nfdeaf 仓库失败" >&2
+        exit 1
+    fi
+
+}
+
 update_nikki() {
     local nikki_repo_url="https://github.com/nikkinikki-org/OpenWrt-nikki.git"
     local target_small8_dir="$BUILD_DIR/feeds/small8"
