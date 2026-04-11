@@ -44,6 +44,7 @@ main() {
     update_feeds
     remove_unwanted_packages
     remove_tweaked_packages
+    install_small8
     update_homeproxy
     add_nf_deaf
     update_nikki
@@ -97,7 +98,7 @@ main() {
     update_docker_stack
     fix_cups_libcups_avahi_depends
     fix_easytier_lua
-    update_adguardhome
+    # update_adguardhome
     update_script_priority
     update_geoip
     fix_openssl_ktls
