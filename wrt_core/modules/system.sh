@@ -693,3 +693,21 @@ remove_tweaked_packages() {
         fi
     fi
 }
+
+remove_dhcp_lan() {
+    # 定义目标文件路径
+    local conf_file="$BUILD_DIR/package/network/services/dnsmasq/files/dhcp.conf"
+    
+    # 检查文件是否存在，防止路径错误导致报错
+    if [ -f "$conf_file" ]; then
+        # 使用 sed 进行正则匹配并原地修改 (-i)
+        # 使用 | 作为 sed 的分隔符，避免和路径中的 / 冲突
+        # ^[[:space:]]* 匹配行首可能存在的任意空格或制表符（Tab）
+        # #& 表示在匹配到的完整内容前加上 #
+        
+        sed -i "s|^[[:space:]]*option local[[:space:]]*'/lan/'|#&|" "$conf_file"
+        sed -i "s|^[[:space:]]*option domain[[:space:]]*'lan'|#&|" "$conf_file"
+        
+        echo "✅ 成功注释 $conf_file 中的 local 和 domain 选项"
+    fi
+}
