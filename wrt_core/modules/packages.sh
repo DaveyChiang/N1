@@ -149,7 +149,7 @@ install_passwall() {
 
 install_nikki() {
     echo "正在从官方仓库安装 nikki..."
-    ./scripts/feeds install -p nikki -f nikki luci-app-nikki
+    ./scripts/feeds install -p nikki -f -a
 }
 
 install_fullconenat() {
