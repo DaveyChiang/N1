@@ -179,7 +179,7 @@ install_small8() {
 verify_small8_installed_paths() {
     local feed_name="small8"
     local required_package_dirs=(
-        luci-app-adguardhome luci-app-mosdns v2ray-geodata luci-app-easytier
+        v2ray-geodata luci-app-easytier
     )
     local missing_package_dirs=()
 
@@ -212,7 +212,7 @@ install_passwall() {
 
 install_nikki() {
     echo "正在从官方仓库安装 nikki..."
-    ./scripts/feeds install -p nikki -f nikki luci-app-nikki mihomo-meta
+    ./scripts/feeds install -f -ap nikki
 }
 
 check_default_settings() {
