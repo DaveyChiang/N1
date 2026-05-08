@@ -212,7 +212,7 @@ install_passwall() {
 
 install_nikki() {
     echo "正在从官方仓库安装 nikki..."
-    ./scripts/feeds install -p nikki -f nikki luci-app-nikki
+    ./scripts/feeds install -p nikki -f nikki luci-app-nikki mihomo-meta
 }
 
 check_default_settings() {
@@ -284,6 +284,16 @@ add_nf_deaf() {
         exit 1
     fi
 
+    # 对刚刚下载的 Makefile 进行自动化修改
+    local makefile="$nfdeaf_dir/Makefile"
+    if [ -f "$makefile" ]; then
+        echo "正在修改 Makefile..."
+        sed -i '/^PKG_SOURCE_DATE/d' "$makefile"
+        sed -i 's/^PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=master/' "$makefile"
+        echo "nf_deaf Makefile 修改完成！"
+    else
+        echo "警告：未找到 $makefile" >&2
+    fi
 }
 
 update_tailscale() {
