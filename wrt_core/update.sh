@@ -44,7 +44,7 @@ main() {
     update_feeds
     remove_unwanted_packages
     remove_tweaked_packages
-    install_small8
+    install_custom_feed
     update_homeproxy
     add_nf_deaf
     update_tailscale
@@ -75,7 +75,7 @@ main() {
     # fix_quickstart
     update_oaf_deconfig
     add_timecontrol
-    add_podman
+    # add_podman
 	add_qbittorrentstatic
 	add_dufs
     # add_quickfile
@@ -94,7 +94,7 @@ main() {
     remove_attendedsysupgrade
     fix_kconfig_recursive_dependency
     install_feeds
-    verify_small8_installed_paths
+    verify_custom_feed_installed_paths
     docker_stack_sync_nftables_compat "$BUILD_DIR" "0"
     fix_cups_libcups_avahi_depends
     fix_easytier_lua
