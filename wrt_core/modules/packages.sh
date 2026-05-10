@@ -156,7 +156,7 @@ install_custom_feed() {
     )
     local required_feed_dirs=(
         cups tcping v2ray-geodata luci-app-openclash luci-app-homeproxy
-        lucky luci-app-lucky luci-app-easytier luci-app-passwall nikki luci-app-nikki mihomo-meta
+        lucky luci-app-lucky luci-app-easytier luci-app-passwall nikki luci-app-nikki mihomo-meta mihomo-alpha
     )
     local custom_feed_sources=()
     local missing_feed_dirs=()
@@ -178,7 +178,7 @@ install_custom_feed() {
         "kenzok8/small-package|https://github.com/kenzok8/small-package.git||${base_custom_feed_packages[*]}"
         "sbwml/luci-app-mosdns|https://github.com/sbwml/luci-app-mosdns.git|v5|mosdns luci-app-mosdns"
         "Openwrt-Passwall/openwrt-passwall|https://github.com/Openwrt-Passwall/openwrt-passwall.git|main|luci-app-passwall"
-        "nikkinikki-org/OpenWrt-nikki|https://github.com/nikkinikki-org/OpenWrt-nikki.git|main|nikki luci-app-nikki mihomo-meta"
+        "nikkinikki-org/OpenWrt-nikki|https://github.com/nikkinikki-org/OpenWrt-nikki.git|main|nikki luci-app-nikki mihomo-meta mihomo-alpha"
     )
 
     feeds_path=$(get_feeds_path)
@@ -222,7 +222,7 @@ verify_custom_feed_installed_paths() {
     local custom_feed_name
     local custom_feed_package_dir
     local required_package_dirs=(
-        v2ray-geodata luci-app-easytier luci-app-passwall nikki luci-app-nikki mihomo-meta
+        v2ray-geodata luci-app-easytier luci-app-passwall nikki luci-app-nikki mihomo-meta mihomo-alpha
     )
     local missing_package_dirs=()
 

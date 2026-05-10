@@ -789,3 +789,32 @@ remove_dhcp_lan() {
         echo "✅ 成功注释 $conf_file 中的 local 和 domain 选项"
     fi
 }
+
+fix_nikki() {
+    local NIKKI_DIR="$(get_custom_feed_source_dir)/nikki"
+    local MAKEFILE="$NIKKI_DIR/Makefile"
+
+    echo "========================================"
+    echo "  开始修复并编译 nikki..."
+    echo "========================================"
+
+    if [ ! -f "$MAKEFILE" ]; then
+        echo "❌ 错误: 找不到 Makefile 文件 ($MAKEFILE)"
+        echo "请检查 OpenWrt 源码根目录路径是否正确。"
+        return 1
+    fi
+
+    if grep -q "define Build/InstallDev" "$MAKEFILE"; then
+        echo "✅ Build/InstallDev 补丁已存在，无需重复修改。"
+    else
+        echo "🔧 正在写入 Build/InstallDev 补丁..."
+        # 将空定义追加到 Makefile 末尾
+        cat >> "$MAKEFILE" << 'EOF'
+
+# 阻止 OpenWrt 将 Go 源码复制到 staging_dir
+define Build/InstallDev
+endef
+EOF
+        echo "✅ Makefile 修复完成。"
+    fi
+}
