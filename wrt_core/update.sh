@@ -77,7 +77,7 @@ main() {
     add_timecontrol
     # add_podman
 	add_qbittorrentstatic
-	add_dufs
+	# add_dufs
     # add_quickfile
     update_lucky
     fix_nikki
