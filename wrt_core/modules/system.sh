@@ -792,40 +792,20 @@ remove_dhcp_lan() {
 
 fix_nikki() {
     local NIKKI_DIR="$(get_custom_feed_source_dir)/nikki"
-    local MIHOMO_DIR="$(get_custom_feed_source_dir)/mihomo-meta"
-    local NIKKI_MAKEFILE="$NIKKI_DIR/Makefile"
-    local MIHOMO_MAKEFILE="$MIHOMO_DIR/Makefile"
+    local MAKEFILE="${NIKKI_DIR}/Makefile"
 
-    echo "========================================"
-    echo "  开始修复 nikki..."
-    echo "========================================"
-
-    if [ ! -f "$NIKKI_MAKEFILE" ]; then
-        echo "❌ 错误: 找不到 Makefile 文件 ($NIKKI_MAKEFILE)"
-    else
-        if grep -q "define Build/InstallDev" "$NIKKI_MAKEFILE"; then
-        echo "✅ Build/InstallDev 补丁已存在，无需重复修改。"
-    else
-        echo "🔧 正在写入 Build/InstallDev 补丁..."
-        # 使用 sed 精准插入
-        sed -i '/^define Package\/nikki\/install/i define Build/InstallDev\n\t# 这是一个空定义，用于阻止 OpenWrt 尝试复制 Go 源码到 staging_dir\nendef\n' "$NIKKI_MAKEFILE"
-        
-        echo "✅ NIKKI_MAKEFILE插入完成。"
-    fi
+    # 检查 Makefile 是否存在
+    if [ ! -f "${MAKEFILE}" ]; then
+        echo "❌ 错误: 未找到 ${MAKEFILE}"
+        return 1
     fi
 
-    if [ ! -f "$MIHOMO_MAKEFILE" ]; then
-        echo "❌ 错误: 找不到 MIHOMO_MAKEFILE 文件 ($MIHOMO_MAKEFILE)"
-    else
-        if grep -q "GO_PKG_BUILD_PKG:*\$" "$MIHOMO_MAKEFILE" || grep -q "GO_PKG_BUILD_PKG:=.*GO_PKG" "$MIHOMO_MAKEFILE"; then
-            echo "✅ GO_PKG_BUILD_PKG 变量已存在，无需重复修改。"
-        else
-            echo "🔧 正在 MIHOMO_MAKEFILE 中追加 GO_PKG_BUILD_PKG 变量..."
-            # 使用 sed 在匹配到的 GO_PKG 行后追加新变量
-            sed -i '/GO_PKG[[:space:]]*[:=]\+[[:space:]]*github.com\/metacubex\/mihomo/a GO_PKG_BUILD_PKG:=$(GO_PKG)' "$MIHOMO_MAKEFILE"
-            echo "✅ MIHOMO_MAKEFILE变量添加完成。"
-        fi
-    fi
-
-    
+    sed -i '/PKG_BUILD_DEPENDS:=golang\/host/d' "${MAKEFILE}"
+    sed -i '/^PKG_BUILD_TIME:=/d' "${MAKEFILE}"
+    sed -i '/^GO_PKG/d' "${MAKEFILE}"
+    sed -i '/golang-package\.mk/d' "${MAKEFILE}"
+    sed -i 's/\$(GO_ARCH_DEPENDS) //g' "${MAKEFILE}"
+    sed -i 's/ firewall4 / +firewall4 /g' "${MAKEFILE}"
+    sed -i '/call GoBinPackage/d' "${MAKEFILE}"
+    echo "✅ nikki Makefile 修复完成!"
 }
