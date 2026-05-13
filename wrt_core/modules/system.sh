@@ -791,11 +791,11 @@ remove_dhcp_lan() {
 }
 
 fix_nikki() {
-    local NIKKI_DIR="$(get_custom_feed_source_dir)/nikki"
+    local NIKKI_DIR="$(get_custom_feed_source_dir)/mihomo-meta"
     local MAKEFILE="$NIKKI_DIR/Makefile"
 
     echo "========================================"
-    echo "  开始修复并编译 nikki..."
+    echo "  开始修复 nikki..."
     echo "========================================"
 
     if [ ! -f "$MAKEFILE" ]; then
@@ -804,17 +804,12 @@ fix_nikki() {
         return 1
     fi
 
-    if grep -q "define Build/InstallDev" "$MAKEFILE"; then
-        echo "✅ Build/InstallDev 补丁已存在，无需重复修改。"
+    if grep -q "GO_PKG_BUILD_PKG:*\$" "$MAKEFILE" || grep -q "GO_PKG_BUILD_PKG:=.*GO_PKG" "$MAKEFILE"; then
+        echo "✅ GO_PKG_BUILD_PKG 变量已存在，无需重复修改。"
     else
-        echo "🔧 正在写入 Build/InstallDev 补丁..."
-        # 将空定义追加到 Makefile 末尾
-        cat >> "$MAKEFILE" << 'EOF'
-
-# 阻止 OpenWrt 将 Go 源码复制到 staging_dir
-define Build/InstallDev
-endef
-EOF
-        echo "✅ Makefile 修复完成。"
+        echo "🔧 正在 Makefile 中追加 GO_PKG_BUILD_PKG 变量..."
+        # 使用 sed 在匹配到的 GO_PKG 行后追加新变量
+        sed -i '/GO_PKG[[:space:]]*[:=]\+[[:space:]]*github.com\/metacubex\/mihomo/a GO_PKG_BUILD_PKG:=$(GO_PKG)' "$MAKEFILE"
+        echo "✅ 变量添加完成。"
     fi
 }
