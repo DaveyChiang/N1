@@ -80,7 +80,7 @@ main() {
 	# add_dufs
     # add_quickfile
     update_lucky
-    fix_nikki
+    # fix_nikki
     fix_rust_compile_error
     update_smartdns
     update_diskman
