@@ -151,6 +151,8 @@ jobs:
           du -sh ./action_build/staging_dir 2>/dev/null || true
           du -sh ./firmware 2>/dev/null || true
           echo "Firmware file count: $(ls -1 ./firmware 2>/dev/null | wc -l)"
+          echo "--- Files in firmware directory ---"
+          ls -lh ./firmware 2>/dev/null || true
           echo "===================================================="
 
       - name: Package OpenWrt Firmware
